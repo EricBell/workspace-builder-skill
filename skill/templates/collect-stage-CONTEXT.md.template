@@ -1,0 +1,59 @@
+# 00 — Collect
+
+<!--
+  COLLECT STAGE — use when the workflow starts with raw files in non-markdown formats
+  (PDFs, spreadsheets, presentations, text files, etc.) that need to be converted
+  before the first substantive stage can read them.
+
+  Drop location: source/raw/   (user places files here before running this stage)
+  Output: markdown versions of each file, saved to this stage's output/ directory
+  Next stage reads: ../00_collect/output/
+
+  This stage has no Layer 3 reference material — it does format conversion only.
+  If CLAUDE.md has a Folder Structure section, add:
+    `source/raw/` — Drop raw project files here before running 00_collect
+-->
+
+Last updated: [YYYY-MM-DD]
+
+---
+
+## Inputs
+
+### Layer 4 — Working artifacts (per-run, changes each run)
+
+- `../../source/raw/` — Drop raw project files here before running this stage. [Describe what files are expected — e.g. "At minimum: the instruction file (PDF) and the form file (PDF). Optional additional files in any format — PDF, markdown, spreadsheet, text, PowerPoint, etc."]
+
+### Layer 3 — Reference material (stable, same every run)
+
+None.
+
+---
+
+## Process
+
+If [user name] asks where to place project files, tell them: raw files go in `source/raw/`.
+
+Read each file in `../../source/raw/`. Convert to markdown and save to `output/`:
+
+- **PDFs** — convert to markdown. [Name the specific files if known — e.g. "Name the instruction file `instructions.md` and the form file `form.md`."] If it is not clear which file is which, ask [user name] before converting.
+- **Markdown and plain text files** — copy as-is.
+- **Spreadsheets** — extract to markdown table format.
+- **Presentations** — extract slide content to markdown.
+- **Other formats** — extract readable text content to markdown.
+
+When done, list what was saved to `output/` and confirm with [user name] before moving to the next stage.
+
+---
+
+## Outputs
+
+- `[primary-output-1.md]` → `output/`
+- `[primary-output-2.md]` → `output/`
+- Additional files as present in `source/raw/`, converted or copied → `output/`
+
+<!--
+  Name the primary expected output files explicitly (e.g. instructions.md, form.md).
+  The "additional files" line covers optional extras without over-specifying.
+  The next stage's Layer 4 Inputs must reference ../00_collect/output/.
+-->

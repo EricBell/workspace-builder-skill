@@ -55,6 +55,7 @@ Questions:
 - Review gates where a human must make a judgment call
 - The input/output chain — what stage N produces must be what stage N+1 consumes
 - Signs of over-splitting: two stages that do the same kind of work and would have identical Process instructions
+- **Raw file formats**: if the user describes starting with PDFs, spreadsheets, presentations, or other non-markdown files, flag this as a candidate for a dedicated collect stage (numbered 00, before stage 01) that reads from `source/raw/`, converts files to markdown, and outputs to its own `output/` directory. Use `skill/templates/collect-stage-CONTEXT.md.template` when generating it. If a collect stage is added, include `source/raw/` in CLAUDE.md Folder Structure as the drop location.
 
 **Follow-up prompts if the user is unsure:**
 - "If you had to explain what you're doing at each point to a new person, would the explanation be substantially different?" (If yes, different stages. If no, same stage.)
@@ -162,7 +163,7 @@ Generate the workspace in this order:
 1. Root `CLAUDE.md` (use `skill/templates/CLAUDE.md.template`). Populate the `## Identity` section: "You are [Q3 Claude identity] helping [Q1 name], a [Q2 role], [Q4 purpose/context]." Populate the Skills column in the routing table from Group C Q6: use the skill or tool name for stages that have one, `—` for all others.
 2. Root `CONTEXT.md` (use `skill/templates/CONTEXT.md.template`)
 3. `stages/` with numbered folders (`01_name/`, `02_name/`, etc.)
-4. Each stage `CONTEXT.md` with Inputs/Process/Outputs filled (use `skill/templates/stage-CONTEXT.md.template`)
+4. Each stage `CONTEXT.md` with Inputs/Process/Outputs filled (use `skill/templates/stage-CONTEXT.md.template`). If a collect stage was identified in Group B, use `skill/templates/collect-stage-CONTEXT.md.template` for it instead.
 5. Each stage's `references/` and `output/` directories. For any stage-specific reference material described in Group C Q4, draft the file content from the user's description — do not leave it blank.
 6. `_config/` files, drafted from Group C answers:
    - **Group C Q1 (voice/style)** → `_config/voice.md`: draft Purpose, Voice/tone description, sentence-level conventions, what to avoid, and at least one concrete example of correct vs incorrect register if the user gave enough to work from.
