@@ -55,7 +55,7 @@ Questions:
 - Review gates where a human must make a judgment call
 - The input/output chain — what stage N produces must be what stage N+1 consumes
 - Signs of over-splitting: two stages that do the same kind of work and would have identical Process instructions
-- **Raw file formats**: if the user describes starting with PDFs, spreadsheets, presentations, or other non-markdown files, flag this as a candidate for a dedicated collect stage (numbered 00, before stage 01) that reads from `source/raw/`, converts files to markdown, and outputs to its own `output/` directory. Use `skill/templates/collect-stage-CONTEXT.md.template` when generating it. If a collect stage is added, include `source/raw/` in CLAUDE.md Folder Structure as the drop location.
+- **Raw file formats**: if the user describes starting with PDFs, spreadsheets, presentations, or other non-markdown files, flag this as a candidate for a dedicated collect stage (numbered 00, before stage 01) that reads from `source/raw/`, converts files to markdown, and outputs to its own `output/` directory. Use `skill/templates/collect-stage-CONTEXT.md.template` when generating it. If a collect stage is added, include `source/raw/` in CLAUDE.md Folder Structure as the drop location. If the workflow involves PDFs, also copy `skill/tools/pdf_to_md.py` to `scripts/pdf_to_md.py` in the workspace root — this script handles PDF-to-markdown conversion via `pymupdf4llm` and is referenced from the collect stage CONTEXT.md.
 
 **Follow-up prompts if the user is unsure:**
 - "If you had to explain what you're doing at each point to a new person, would the explanation be substantially different?" (If yes, different stages. If no, same stage.)
@@ -164,6 +164,7 @@ Generate the workspace in this order:
 2. Root `CONTEXT.md` (use `skill/templates/CONTEXT.md.template`)
 3. `stages/` with numbered folders (`01_name/`, `02_name/`, etc.)
 4. Each stage `CONTEXT.md` with Inputs/Process/Outputs filled (use `skill/templates/stage-CONTEXT.md.template`). If a collect stage was identified in Group B, use `skill/templates/collect-stage-CONTEXT.md.template` for it instead.
+4a. If the collect stage involves PDFs: copy `skill/tools/pdf_to_md.py` to `scripts/pdf_to_md.py` in the workspace root. Note in the completion report that `pip install pymupdf4llm` is required before running it.
 5. Each stage's `references/` and `output/` directories. For any stage-specific reference material described in Group C Q4, draft the file content from the user's description — do not leave it blank.
 6. `_config/` files, drafted from Group C answers:
    - **Group C Q1 (voice/style)** → `_config/voice.md`: draft Purpose, Voice/tone description, sentence-level conventions, what to avoid, and at least one concrete example of correct vs incorrect register if the user gave enough to work from.

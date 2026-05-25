@@ -4,6 +4,21 @@ Completed improvements to the workspace-builder skill, most recent first.
 
 ---
 
+## 2026-05-25 (2)
+
+### PDF conversion script for collect stage
+
+**Applied to:** `skill/tools/pdf_to_md.py` (new), `skill/templates/collect-stage-CONTEXT.md.template`, `skill/questionnaire.md`
+
+**What changed:**
+- Added `skill/tools/pdf_to_md.py` — a script that converts all PDFs in `source/raw/` to markdown in `stages/00_collect/output/` using `pymupdf4llm`. Supports three call modes: convert all PDFs in `source/raw/`, convert a single file, or convert with an explicit output path.
+- Updated `collect-stage-CONTEXT.md.template`: PDF process step now instructs Claude to run the script rather than convert inline; added comment noting the script must be copied from `skill/tools/` to `scripts/` in the workspace and requires `pip install pymupdf4llm`.
+- Updated `skill/questionnaire.md` Group B: raw file format note now directs the builder to copy `pdf_to_md.py` to `scripts/` when PDFs are involved. Added step 4a to the generation sequence for the same.
+
+**Gap addressed:** The collect stage template described PDF-to-markdown conversion but provided no tooling. Claude was expected to convert PDFs inline, which is unreliable for complex layouts. The script uses `pymupdf4llm` (an LLM-optimised PDF renderer) and produces consistent output regardless of PDF complexity. Grounded in the Current-Project boxing workspace where this pattern was validated.
+
+---
+
 ## 2026-05-25
 
 ### Fix — Safe deletion rule: prohibit `rm -rf` globally

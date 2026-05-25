@@ -12,6 +12,10 @@
   This stage has no Layer 3 reference material — it does format conversion only.
   If CLAUDE.md has a Folder Structure section, add:
     `source/raw/` — Drop raw project files here before running 00_collect
+
+  PDF conversion: if the workflow involves PDFs, copy skill/tools/pdf_to_md.py to
+  scripts/pdf_to_md.py in the workspace root. Requires: pip install pymupdf4llm.
+  The script reads source/raw/*.pdf and writes .md files to stages/00_collect/output/.
 -->
 
 Last updated: [YYYY-MM-DD]
@@ -36,7 +40,11 @@ If [user name] asks where to place project files, tell them: raw files go in `so
 
 Read each file in `../../source/raw/`. Convert to markdown and save to `output/`:
 
-- **PDFs** — convert to markdown. [Name the specific files if known — e.g. "Name the instruction file `instructions.md` and the form file `form.md`."] If it is not clear which file is which, ask [user name] before converting.
+- **PDFs** — use `scripts/pdf_to_md.py` to convert. Run from the workspace root:
+  ```
+  python scripts/pdf_to_md.py
+  ```
+  This converts all PDFs in `source/raw/` and writes `.md` files to `stages/00_collect/output/`. After running, rename the output files as needed. [Name the specific files if known — e.g. "the instruction file → `instructions.md`, the form file → `form.md`".] If it is not clear which PDF is which, ask [user name] before renaming.
 - **Markdown and plain text files** — copy as-is.
 - **Spreadsheets** — extract to markdown table format.
 - **Presentations** — extract slide content to markdown.
